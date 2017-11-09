@@ -201,3 +201,99 @@ basketModule.addItem({
 console.log( basketModule.getTotal() );
 console.log( basketModule.getTotal() );
 
+/**
+ * MODULE PATTERN VARIATIONS
+ */
+
+ /**
+  * Import mixins
+  * This variation of the pattern demonstrates how globals (e.g. jQuery, Underscore) can be passed in as arguments
+  * this effectively allows us to import them and locally alias them as we wish.
+  */
+
+// Global module
+var myModule = (function ( jQ, _ ) {
+    function privateMethod1() {
+        jQ('.container').html( 'test' );
+    }
+    function privateMethod2() {
+        console.log( _.min([10, 5, 100, 2, 1000]) );
+    }
+    return {
+        publicMethod: function(){
+            privateMethod1();
+        }
+    }
+})(jQuery, _);
+
+myModule.publicMethod();
+
+/**
+ * Export
+ * This next variation allows us to declare globals without consuming them and could support
+ * the concept of global imports seen in the last example
+ */
+// Global module
+var myModule = (function () {
+    // Module object
+    var module = {},
+        privateVariable = 'Hello World';
+    
+    function privateMethod() {
+        //...
+    }
+    module.publicProperty = 'Foobar';
+    myModule.publicMethod = function () {
+        console.log( privateVariable );
+    }
+
+    return module;
+})()
+
+/**
+ * Toolkit And Framework-specific Module Pattern Implementations
+ *  - Dojo
+ *  - ExtJS
+ *  - YUI
+ *  - jQuery
+ *      - In the following example, a library `function` is defined which declares a new library 
+ *      and automatically binds up the `init` function to `document.ready` when new libraries 
+ *      (i.e. modules) are created.
+ */
+function library( module ) {
+    $( function() {
+    if ( module.init ) {
+        module.init();
+    }
+    });
+    return module;
+}
+var myLibrary = library(function () {
+    return {
+    init: function () {
+        // module implementation
+        }
+    };
+}());
+
+/**
+ * Advantages
+ *  - Support private data
+ *  - For starters, it's a lot cleaner for developers coming from an object-oriented background that the idea
+ *      of true encapsulation, at least from a Javascript perspective.
+ */
+
+ /**
+  * Disadvantages
+  *  - The disadvantages of the module pattern are that as we access both public and private members differently, 
+  *     when we wish to change visibility, we actually have to make changes to each place the members was used.
+  *  - We also can't access private members in methods that are added to the object at a later point. That said
+  *     in many cases the Module pattern is still quite useful and when used correctly, certainly has the potential
+  *     to improve the structure of our application.
+  *  - Other disadvantages include the inability to create authomated unit test for private members and additional
+  *     complexity when bugs require hot fixes. It's simply not possible to patch private. Instead, one must override
+  *     all public methods which interact with the buggy privates. Developers can`t easily extend privates either,
+  *     so it's worth remembering privates are not as flexible as they may initially appear.
+  *  - Further reading http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html
+  */
+
