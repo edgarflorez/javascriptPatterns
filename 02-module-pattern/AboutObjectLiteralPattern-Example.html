@@ -66,75 +66,78 @@
       </li>
 
     </ul>
-    <script
-    src="https://code.jquery.com/jquery-2.2.4.min.js"
-    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-    crossorigin="anonymous"></script>
-    <script>
-      var myFeature = {
-        'config': {
-          container: $('#myFeature')
-        },
-        'init': function (config) {
-          //config
-          if(config && typeof config == 'object'){
-            $.extend(myFeature.config, config)
-          }
-          // define references
-          myFeature.$container = myFeature.config.container;
-          myFeature.$sections = myFeature.config.container.
-            find('ul.sections >li');
-          myFeature.$section_nav = $('<div/>').
-            attr('id','sectioNav').
-            prependTo(myFeature.config.container);
-          myFeature.$item_nav = $('<div/>').
-            attr('id', 'itemsNav').
-            insertAfter(myFeature.$section_nav);
-          myFeature.$content = $('<div/>').
-            attr('id', 'content').
-            insertAfter(myFeature.$items_nav)
-          myFeature.buildSectionNav(myFeature.$sections);
-          myFeature.$section_nav.find('li:first').click();
-          myFeature.$container.find('ul.sections').hide();
-          myFeature.initilized = true;
-
-        },
-
-        'buildSectionNav': function ($sections) {
-          $sections.each(function () {
-            $('<li/>').
-              text( $(this).find('h2').text() ).
-              attr('data-section', $(this).html() ).
-              appendTo( myFeature.$section_nav ).
-              on('click', function (e) {
-                myFeature.showSection( this );
-              })
-          })
-        },
-
-        'showSection': function (li) {
-          var $li = $(li);
-          myFeature.$item_nav.empty();
-          myFeature.$content.empty();
-          var $section = $($li.data('section'));
-          $li.addClass('current').
-            siblings().removeClass('current');
-          var $items = $section.find('ul li');
-          myFeature.buildItemNav($items);
-          myFeature.$item_nav.find('li:first').click();
-        },
-
-        'buildItemNav': function ($items) {
-          debugger
-          $items.each(function ($item) {
-            $('<li/>').
-              text( $item.text() ).
-              appendTo( myFeature.$item_nav )
-
-          })
+  </div>
+  <script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+  <script>
+    var myFeature = {
+      'config': {
+        container: $('#myFeature')
+      },
+      'init': function (config) {
+        //config
+        if(config && typeof config == 'object'){
+          $.extend(myFeature.config, config)
         }
+        // define references
+        myFeature.$container = myFeature.config.container;
+        myFeature.$sections = myFeature.config.container.
+          find('ul.sections >li');
+        myFeature.$section_nav = $('<div/>').
+          attr('id','sectioNav').
+          prependTo(myFeature.config.container);
+        myFeature.$item_nav = $('<div/>').
+          attr('id', 'itemsNav').
+          insertAfter(myFeature.$section_nav);
+        myFeature.$content = $('<div/>').
+          attr('id', 'content').
+          insertAfter(myFeature.$items_nav)
+        myFeature.buildSectionNav(myFeature.$sections);
+        myFeature.$section_nav.find('li:first').click();
+        myFeature.$container.find('ul.sections').hide();
+        myFeature.initilized = true;
+
+      },
+
+      'buildSectionNav': function ($sections) {
+        $sections.each(function () {
+          var $section = $(this);
+          $('<li/>').
+            text( $(this).find('h2').text() ).
+            attr('data-section', $section.html() ).
+            appendTo( myFeature.$section_nav ).
+            on('click', function (e) {
+              myFeature.showSection( this );
+            })
+        })
+      },
+
+      'showSection': function (li) {
+        var $li = $(li);
+        myFeature.$item_nav.empty();
+        myFeature.$content.empty();
+        var $section = $li.data('section');
+        $li.addClass('current').
+          siblings().removeClass('current');
+        var $items = $li.find('ul li');
+        debugger
+        myFeature.buildItemNav($items);
+        myFeature.$item_nav.find('li:first').click();
+      },
+
+      'buildItemNav': function ($items) {
+        debugger
+        $items.each(function ($item) {
+          $('<li/>').
+            text( $item.text() ).
+            appendTo( myFeature.$item_nav )
+
+        })
       }
-      myFeature.init();
-    </script>
+    }
+    myFeature.init();
+  </script>
 </body>
 </html>
