@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>About Object Literal Pattern</title>
+  <style>
+    body {
+
+    }
+    .active {
+      background: red;
+      color: #ffffff;
+    }
+  </style>
 </head>
 <body>
   <h1>This is My Nifty Feature</h1>
@@ -16,7 +25,7 @@
         <ul>
           <li>
             <h3><a href="/section/1/content/1">Section 1 Title 1</a></h3>
-            <p>The excerpt content for Content Item 1</p>
+            <p>A. The excerpt content for Content Item 1</p>
           </li>
           <li>
             <h3><a href="/section/1/content/2">Section 1 Title 2</a></h3>
@@ -34,7 +43,7 @@
         <ul>
           <li>
             <h3><a href="/section/2/content/1">Section 2 Title 1</a></h3>
-            <p>The excerpt content for Content Item 1</p>
+            <p>B. The excerpt content for Content Item 1</p>
           </li>
           <li>
             <h3><a href="/section/2/content/2">Section 2 Title 2</a></h3>
@@ -52,7 +61,7 @@
         <ul>
           <li>
             <h3><a href="/section/3/content/1">Section 3 Title 1</a></h3>
-            <p>The excerpt content for Content Item 1</p>
+            <p>C. The excerpt content for Content Item 1</p>
           </li>
           <li>
             <h3><a href="/section/3/content/2">Section 3 Title 2</a></h3>
@@ -93,7 +102,7 @@
           insertAfter(myFeature.$section_nav);
         myFeature.$content = $('<div/>').
           attr('id', 'content').
-          insertAfter(myFeature.$items_nav)
+          insertAfter(myFeature.$item_nav)
         myFeature.buildSectionNav(myFeature.$sections);
         myFeature.$section_nav.find('li:first').click();
         myFeature.$container.find('ul.sections').hide();
@@ -106,35 +115,40 @@
           var $section = $(this);
           $('<li/>').
             text( $(this).find('h2').text() ).
-            attr('data-section', $section.html() ).
+            data('section', $section).
             appendTo( myFeature.$section_nav ).
-            on('click', function (e) {
-              myFeature.showSection( this );
-            })
+            click(myFeature.showSection)
         })
       },
 
-      'showSection': function (li) {
-        var $li = $(li);
+      'showSection': function () {
+        var $li = $(this);
         myFeature.$item_nav.empty();
         myFeature.$content.empty();
+        $li.addClass('active').
+          siblings().removeClass('active')
         var $section = $li.data('section');
-        $li.addClass('current').
-          siblings().removeClass('current');
-        var $items = $li.find('ul li');
-        debugger
+        var $items = $section.find('li');
         myFeature.buildItemNav($items);
         myFeature.$item_nav.find('li:first').click();
       },
 
       'buildItemNav': function ($items) {
-        debugger
-        $items.each(function ($item) {
+        $items.each(function (index, item) {
+          var $item = $(item);
           $('<li/>').
-            text( $item.text() ).
-            appendTo( myFeature.$item_nav )
-
+            text( $item.find('h3').text() ).
+            data('item', $item.find('p').text() ).
+            appendTo( myFeature.$item_nav ).
+            click(myFeature.showContentItem)
         })
+      },
+
+      'showContentItem': function () {
+        $item = $(this);
+        $item.addClass('active').
+          siblings().removeClass('active')
+        myFeature.$content.html( $item.data('item') );
       }
     }
     myFeature.init();
