@@ -1,4 +1,9 @@
-// THE SINGLETO PATTERN
+// THE SINGLETON PATTERN
+
+/**
+ * ARTICLES
+ * [Use your singletons wisely]{@link https://www.ibm.com/developerworks/webservices/library/co-single/index.html}
+ * [Dependency Injection Myth: Reference Passing]{@link http://misko.hevery.com/2008/10/21/dependency-injection-myth-reference-passing/}
 
 /**
  * The Singleton pattern is thus known because it restricts instantiation of a class to a single
