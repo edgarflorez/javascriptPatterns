@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Observer boilerplate</title>
+</head>
+<body>
+  <button id="addObserver">Add New Observer</button>
+  <input type="checkbox" id="mainCheckbox">
+  <div id="observerContainer"></div>
+
+  <script src="libs/observer/Observer.js"></script>
+  <script src="libs/observer/ObserverList.js"></script>
+  <script src="libs/observer/Subject.js"></script>
+  <script>
+    // Extend an object with an extension `Class`
+    function extend( obj, extension ) {
+      for(var key in extension){
+        obj[key] = extension[key];
+      }
+    }
+
+    // references to our DOM elements
+    var controlCheckbox = document.getElementById('addObserver');
+    var mainCheckbox = document.getElementById('mainCheckbox');
+    var observerContainer = document.getElementById('observerContainer');
+
+    extend( mainCheckbox, new Subject() );
+
+    mainCheckbox.addEventListener( 'click', function (e) {
+      mainCheckbox.notify( this.checked );
+    })
+
+    controlCheckbox.addEventListener( 'click', function(e){
+      var checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+
+      extend( checkbox, new Observer());
+      mainCheckbox.addObserver(checkbox);
+
+      checkbox.update = function ( context ) {
+        this.checked = context;
+      }
+
+      observerContainer.appendChild(checkbox);
+    })
+
+  </script>
+</body>
+</html>

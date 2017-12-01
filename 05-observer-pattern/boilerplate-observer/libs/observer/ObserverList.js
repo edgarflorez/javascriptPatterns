@@ -1,11 +1,11 @@
 /**
  * ObserverList with the basic concers to maintain a list.
  *
- * - add
- * - count
- * - get
- * - indexOf
- * - removeAt
+ * - [add]{@link ObserverList#add}
+ * - [count]{@link ObserverList#count}
+ * - [get]{@link ObserverList#get}
+ * - [indexOf]{@link ObserverList#indexOf}
+ * - [removeAt]{@link ObserverList#removeAt}
  * @class
  */
 function ObserverList() {
